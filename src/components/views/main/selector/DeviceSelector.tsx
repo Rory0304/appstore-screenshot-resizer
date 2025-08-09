@@ -1,5 +1,6 @@
 import { SCREENSHOT_SPECS } from "@/data/constants/screenshot";
 import { Device } from "@/data/enums/screenshot";
+import { Check } from "lucide-react";
 import { FC } from "react";
 
 interface DeviceSelectorProps {
@@ -12,7 +13,7 @@ export const DeviceSelector: FC<DeviceSelectorProps> = ({
   onChange,
 }) => {
   return (
-    <div>
+    <div className="mb-12">
       <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
         {/* <Smartphone className="w-5 h-5 mr-2 text-purple-600" /> */}
         기기 선택
@@ -29,9 +30,9 @@ export const DeviceSelector: FC<DeviceSelectorProps> = ({
               className="sr-only"
             />
             <div
-              className={`p-4 rounded-xl border-2 transition-all duration-200 ${
+              className={`p-4 rounded-xl border-2  ${
                 selectedDevice === device
-                  ? "border-blue-500 bg-blue-50 shadow-lg scale-105"
+                  ? "border-blue-500 bg-blue-50 shadow-lg"
                   : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
               }`}
             >
@@ -49,9 +50,9 @@ export const DeviceSelector: FC<DeviceSelectorProps> = ({
                     </p>
                   </div>
                 </div>
-                {/* {selectedDevice === device && (
+                {selectedDevice === device && (
                   <Check className="w-5 h-5 text-blue-600" />
-                )} */}
+                )}
               </div>
             </div>
           </label>

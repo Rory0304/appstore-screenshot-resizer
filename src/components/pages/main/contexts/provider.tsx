@@ -12,6 +12,7 @@ export const ScreenShotContext = createContext<{
   screenShotConfig: {
     orientation: Orientation.PORTRAIT,
     device: Device.iPhone15,
+    imageFiles: [],
   },
   dispatch: () => undefined,
 });
@@ -26,6 +27,7 @@ export default function ScreenShotProvider({
   const [screenShotConfig, dispatch] = useReducer(reducer, {
     orientation: Orientation.PORTRAIT,
     device: Device.iPhone15,
+    imageFiles: [],
   });
 
   return (

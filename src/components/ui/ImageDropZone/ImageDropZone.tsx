@@ -1,17 +1,20 @@
-import React, { FC, useCallback, useState } from "react";
+import { Upload } from "lucide-react";
+import React, { FC, useState } from "react";
 import { useDropzone, DropzoneOptions } from "react-dropzone";
 import { toast } from "sonner";
 
 interface ImageDropZoneProps {
   options: DropzoneOptions;
   description?: string;
+  onUploadImageFile: ({ url, file }: { url: string; file: File }) => void;
 }
 
 export const ImageDropZone: FC<ImageDropZoneProps> = ({
   options,
   description,
+  onUploadImageFile,
 }) => {
-  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const [previewImageFiles, setPreviewImageFiles] = useState<File[]>([]);
 
   const _onDrop = (acceptedFiles: File[]) => {
     for (const file of acceptedFiles) {
@@ -19,37 +22,34 @@ export const ImageDropZone: FC<ImageDropZoneProps> = ({
       reader.onabort = () => toast.info("파일 등록이 취소되었습니다.");
       reader.onerror = () => toast.error("파일 등록이 취소되었습니다.");
       reader.onload = () => {
-        const dataURL = reader.result as string;
-        setPreviewImages((prev) => [...prev, dataURL]);
+        const url = URL.createObjectURL(file);
+
+        setPreviewImageFiles((prev) => [...prev, file]);
+        onUploadImageFile({ url, file });
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const { getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     ...options,
     onDrop: _onDrop,
   });
 
-  const renderPreviewImage = useCallback(() => {
-    if (previewImages.length === 0) return null;
-
-    return (
-      <div>
-        <p>선택된 이미지 ({previewImages.length}개)</p>
-        {previewImages.map((image) => (
-          <div key={image}>
-            <img src={image} alt="preview image" />
-          </div>
-        ))}
-      </div>
-    );
-  }, [previewImages]);
-
   return (
-    <div>
+    <div
+      className={`relative border-2 border-dashed rounded-2xl p-12 text-center transition-all duration-300 ${
+        isDragActive
+          ? "border-blue-400 bg-blue-50 scale-105"
+          : previewImageFiles.length > 0
+          ? "border-green-400 bg-green-50"
+          : "border-gray-300 hover:border-gray-400 hover:bg-gray-50"
+      }`}
+    >
       <div {...getRootProps()}>
-        <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto"></div>
+        <div className="mb-4 w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto">
+          <Upload className="w-8 h-8 text-white" />
+        </div>
         <input {...getInputProps()} />
         <div className="flex flex-col items-center justify-center">
           <p className="text-xl font-semibold text-gray-700 mb-2">
@@ -58,7 +58,6 @@ export const ImageDropZone: FC<ImageDropZoneProps> = ({
           <p className="text-gray-500">{description}</p>
         </div>
       </div>
-      {renderPreviewImage()}
     </div>
   );
 };

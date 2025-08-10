@@ -15,28 +15,48 @@ export const MainImageProcessor: FC = () => {
 
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const downloadWithZip = async (resizedFiles: File[]) => {
-    const zip = new JSZip();
-
-    resizedFiles.forEach((file) => {
-      zip.file(
-        `${device}-${orientation}-${file.name}.${file.type.split("/")[1]}`,
-        file
-      );
-    });
-
-    zip.generateAsync({ type: "blob" }).then((content) => {
-      const url = URL.createObjectURL(content);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${device}-${orientation}.zip`;
-      a.click();
-    });
+  const createZipFileName = (originalFileName: string, fileType: string) => {
+    return `${device}-${orientation}-${originalFileName}.${fileType}`;
   };
 
-  /**
-   * [TODO] Canvas 에서 규격에 따라 이미지 처리
-   */
+  const getFileExtension = (mimeType: string) => {
+    return mimeType.split("/")[1];
+  };
+
+  const createDownloadLink = (blob: Blob, fileName: string) => {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = fileName;
+
+    return { link, url };
+  };
+
+  const downloadWithZip = async (resizedFiles: File[]) => {
+    try {
+      const zip = new JSZip();
+
+      resizedFiles.forEach((file) => {
+        const fileExtension = getFileExtension(file.type);
+        const zipFileName = createZipFileName(file.name, fileExtension);
+        zip.file(zipFileName, file);
+      });
+
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+      const zipFileName = `${device}-${orientation}.zip`;
+      const { link, url } = createDownloadLink(zipBlob, zipFileName);
+
+      link.click();
+      URL.revokeObjectURL(url);
+
+      toast.success("ZIP 파일 다운로드가 시작되었습니다.");
+    } catch (error) {
+      console.error("ZIP 다운로드 중 오류 발생:", error);
+      toast.error("ZIP 파일 생성에 실패했습니다.");
+    }
+  };
+
   const processImages = async () => {
     try {
       setIsProcessing(true);
@@ -53,12 +73,12 @@ export const MainImageProcessor: FC = () => {
       );
 
       downloadWithZip(result);
+      toast.success("이미지 리사이즈에 성공했습니다.");
     } catch (error) {
       console.error(error);
       toast.error("이미지 리사이즈에 실패했습니다.");
     } finally {
       setIsProcessing(false);
-      toast.success("이미지 리사이즈에 성공했습니다.");
     }
   };
 

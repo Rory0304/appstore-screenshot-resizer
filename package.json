@@ -5,6 +5,7 @@
   "scripts": {
     "build": "next build",
     "ci:lint": "next lint",
+    "ci:format": "prettier --write .",
     "ci:sort-package-json": "npx sort-package-json",
     "dev": "next dev",
     "lint": "next lint",

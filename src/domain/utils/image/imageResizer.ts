@@ -5,7 +5,7 @@ type ResizeImageOptions = {
 };
 
 /**
- * [TODO] 이미지 리사이즈
+ * 이미지 리사이즈
  */
 export const resizeImage = async (file: File, options: ResizeImageOptions) => {
   const canvas = await createCanvas(file);
@@ -65,7 +65,7 @@ export const createCanvas = (file: File): Promise<HTMLCanvasElement> => {
 };
 
 /**
- * [TODO] Canvas 에서 규격에 따라 이미지 처리
+ * Canvas 에서 규격에 따라 이미지 처리
  */
 export const resizeCanvas = (
   sourceCanvas: HTMLCanvasElement,
@@ -98,13 +98,15 @@ export const canvasToFile = (
   canvas: HTMLCanvasElement,
   imageFile: File
 ): Promise<File> => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     canvas.toBlob((blob) => {
       if (blob) {
         const file = new File([blob], imageFile.name, {
           type: imageFile.type,
         });
         resolve(file);
+      } else {
+        reject(new Error("Failed to convert canvas to Blob"));
       }
     }, imageFile.type);
   });

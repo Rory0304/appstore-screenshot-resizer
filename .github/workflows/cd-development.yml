@@ -4,12 +4,14 @@ on:
   workflow_dispatch:
   push:
     branches: [develop]
+  pull_request:
+    types:
+      - reopened
 
 env:
   STAGE: development
   AWS_REGION: ap-northeast-2
   AWS_ECR_REPOSITORY: app-screenshot-resizer/dev
- 
 
 jobs: 
   CI: 

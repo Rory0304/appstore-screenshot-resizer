@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "ci:sort-package-json": "npx sort-package-json",
+    "ci:format": "prettier --write .",
     "ci:lint": "next lint",
-    "ci:format": "prettier --write ."
+    "ci:sort-package-json": "npx sort-package-json",
+    "dev": "next dev",
+    "lint": "next lint",
+    "start": "next start"
   },
   "dependencies": {
     "jszip": "^3.10.1",

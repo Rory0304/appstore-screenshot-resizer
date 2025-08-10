@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "ci:sort-package-json": "npx sort-package-json",
+    "ci:lint": "next lint"
   },
   "dependencies": {
     "jszip": "^3.10.1",

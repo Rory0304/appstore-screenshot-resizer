@@ -38,7 +38,7 @@ export const ImageDropZone: FC<ImageDropZoneProps> = ({
 
   return (
     <div
-      className={`relative border-2 border-dashed rounded-2xl p-12 text-center transition-all duration-300 ${
+      className={`cursor-pointer relative border-2 border-dashed rounded-2xl p-12 text-center transition-all duration-300 ${
         isDragActive
           ? "border-blue-400 bg-blue-50 scale-105"
           : previewImageFiles.length > 0

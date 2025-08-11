@@ -42,6 +42,7 @@ jobs:
               with:
                   role-to-assume: ${{ secrets.AWS_ROLE_NAME }}
                   aws-region: ${{ env.AWS_REGION }}
+            - name: Check AWS Role
               run: |
                   echo ${{ secrets.AWS_ROLE_NAME }}
 

@@ -37,7 +37,7 @@ jobs:
                   node-version: 20
             # 2. AWS Credentials (role based)
             - name: Configure AWS Credentials
-              uses: aws-actions/configure-aws-credentials@v4.3.1
+              uses: aws-actions/configure-aws-credentials@v3
               with:
                   role-to-assume: arn:aws:iam::499888194301:role/github_action
                   aws-region: ${{ env.AWS_REGION }}

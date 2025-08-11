@@ -1,1 +1,1 @@
-export { SCREENSHOT_SPECS } from "./ScreenShotSpecification";
+export { SCREENSHOT_SPECS } from './ScreenShotSpecification';

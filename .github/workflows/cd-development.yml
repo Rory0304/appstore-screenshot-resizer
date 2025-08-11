@@ -6,9 +6,9 @@ on:
     push:
         branches: [develop]
     pull_request:
-      types:
-        - reopened
-        
+        types:
+            - reopened
+
 env:
     STAGE: development
     AWS_REGION: ap-northeast-2

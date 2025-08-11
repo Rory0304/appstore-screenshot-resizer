@@ -11,8 +11,8 @@ env:
   AWS_ECR_REPOSITORY: app-screenshot-resizer/dev
 
 permissions:
-  id-token: write
   contents: write
+  actions: write
 
 jobs: 
   CI: 

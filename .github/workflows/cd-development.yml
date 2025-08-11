@@ -11,7 +11,7 @@ on:
             - synchronize
 
 permissions:
-  id-token: write # Required for OIDC authentication
+    id-token: write # Required for OIDC authentication
 
 env:
     STAGE: development

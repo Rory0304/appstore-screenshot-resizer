@@ -1,54 +1,54 @@
 name: CI
 
 on:
-  workflow_dispatch:
-  workflow_call:
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
+    workflow_dispatch:
+    workflow_call:
+    pull_request:
+        types:
+            - opened
+            - reopened
+            - synchronize
 
 jobs:
-  CI:
-    if: github.event.pull_request.head.ref != 'main'
-    runs-on: ubuntu-latest
+    CI:
+        if: github.event.pull_request.head.ref != 'main'
+        runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.WORKFLOW_TOKEN }}
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  token: ${{ secrets.WORKFLOW_TOKEN }}
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          
-      - name: Install Dependencies
-        run: |
-          yarn install
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 20
 
-      - name: Run sort-package-json
-        run: |
-          npm run ci:sort-package-json
+            - name: Install Dependencies
+              run: |
+                  yarn install
 
-      - uses: stefanzweifel/git-auto-commit-action@v6
-        with:
-          commit_message: 'chore: lint'
-          push_options: --force
+            - name: Run sort-package-json
+              run: |
+                  npm run ci:sort-package-json
 
-      - name: Run format
-        run: |
-          npm run ci:format
+            - uses: stefanzweifel/git-auto-commit-action@v6
+              with:
+                  commit_message: 'chore: lint'
+                  push_options: --force
 
-      - name: Run lint
-        run: |
-          npm run ci:lint
+            - name: Run format
+              run: |
+                  npm run ci:format
 
-      - uses: stefanzweifel/git-auto-commit-action@v6
-        with:
-          commit_message: 'chore: lint'
-          push_options: --force
+            - name: Run lint
+              run: |
+                  npm run ci:lint
 
-      - name: Build
-        run: |
-          npm run ci:build
+            - uses: stefanzweifel/git-auto-commit-action@v6
+              with:
+                  commit_message: 'chore: lint'
+                  push_options: --force
+
+            - name: Build
+              run: |
+                  npm run ci:build

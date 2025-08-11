@@ -1,15 +1,16 @@
-import React, { FC } from "react";
-import { Toaster } from "sonner";
+import React, { FC } from 'react';
+
+import { Toaster } from 'sonner';
 
 interface AppProviderProps {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }
 
 export const AppProvider: FC<AppProviderProps> = ({ children }) => {
-  return (
-    <>
-      {children}
-      <Toaster />
-    </>
-  );
+    return (
+        <>
+            {children}
+            <Toaster />
+        </>
+    );
 };

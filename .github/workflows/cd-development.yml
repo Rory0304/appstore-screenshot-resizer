@@ -9,6 +9,9 @@ on:
         types:
             - reopened
 
+permissions:
+  id-token: write # Required for OIDC authentication
+
 env:
     STAGE: development
     AWS_REGION: ap-northeast-2

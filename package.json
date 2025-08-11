@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "ci:build": "next build",
     "ci:format": "prettier --write .",
     "ci:lint": "next lint",
     "ci:sort-package-json": "npx sort-package-json",

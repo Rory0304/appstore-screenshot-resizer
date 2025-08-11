@@ -1,52 +1,54 @@
 name: CI
 
 on:
-  workflow_dispatch:
-  workflow_call:
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
+    workflow_dispatch:
+    workflow_call:
+    pull_request:
+        types:
+            - opened
+            - reopened
+            - synchronize
 
 jobs:
-  CI:
-    if: github.event.pull_request.head.ref != 'main'
+    CI:
+        if: github.event.pull_request.head.ref != 'main'
+        runs-on: ubuntu-latest
 
-    runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  token: ${{ secrets.WORKFLOW_TOKEN }}
 
-    permissions:
-      contents: write
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 20
 
-    steps:
-      - uses: actions/checkout@v4
+            - name: Install Dependencies
+              run: |
+                  yarn install
 
-      - name: Install Dependencies
-        run: |
-          yarn install
+            - name: Run sort-package-json
+              run: |
+                  npm run ci:sort-package-json
 
-      - name: Run sort-package-json
-        run: |
-          npm run ci:sort-package-json
+            - uses: stefanzweifel/git-auto-commit-action@v6
+              with:
+                  commit_message: 'chore: lint'
+                  push_options: --force
 
-      - uses: stefanzweifel/git-auto-commit-action@v6
-        with:
-          commit_message: 'chore: lint'
-          push_options: --force
+            - name: Run format
+              run: |
+                  npm run ci:format
 
-      - name: Run format
-        run: |
-          npm run ci:format
+            - name: Run lint
+              run: |
+                  npm run ci:lint
 
-      - name: Run lint
-        run: |
-          npm run ci:lint
+            - uses: stefanzweifel/git-auto-commit-action@v6
+              with:
+                  commit_message: 'chore: lint'
+                  push_options: --force
 
-      - uses: stefanzweifel/git-auto-commit-action@v6
-        with:
-          commit_message: 'chore: lint'
-          push_options: --force
-
-      - name: Build
-        run: |
-          npm run ci:build
+            - name: Build
+              run: |
+                  npm run ci:build

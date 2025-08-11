@@ -1,1 +1,1 @@
-export { OrientationSelector } from "./OrientationSelector";
+export { OrientationSelector } from './OrientationSelector';

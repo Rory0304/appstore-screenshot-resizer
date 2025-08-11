@@ -1,1 +1,1 @@
-export { ImageDropZone } from "./ImageDropZone";
+export { ImageDropZone } from './ImageDropZone';

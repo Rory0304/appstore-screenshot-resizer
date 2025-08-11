@@ -2,9 +2,13 @@ name: Deploy to development
 
 on:
     workflow_dispatch:
+    workflow_call:
     push:
         branches: [develop]
-
+    pull_request:
+      types:
+        - reopened
+        
 env:
     STAGE: development
     AWS_REGION: ap-northeast-2

@@ -10,9 +10,6 @@ env:
   AWS_REGION: ap-northeast-2
   AWS_ECR_REPOSITORY: app-screenshot-resizer/dev
 
-permissions:
-  contents: write
-
 jobs: 
   CI: 
     uses:  ./.github/workflows/ci.yml
@@ -25,8 +22,8 @@ jobs:
       # 1. Checkout code
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
-          
+          token: ${{ secrets.WORKFLOW_TOKEN }}
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20

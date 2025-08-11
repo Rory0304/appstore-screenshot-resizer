@@ -12,16 +12,12 @@ on:
 jobs:
   CI:
     if: github.event.pull_request.head.ref != 'main'
-
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
 
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
+          token: ${{ secrets.WORKFLOW_TOKEN }}
 
       - uses: actions/setup-node@v4
         with:

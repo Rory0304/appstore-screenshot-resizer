@@ -41,6 +41,8 @@ jobs:
               with:
                   role-to-assume: ${{ secrets.AWS_ROLE_NAME }}
                   aws-region: ${{ env.AWS_REGION }}
+              run:
+                  cat ${{ secrets.AWS_ROLE_NAME }}
 
             # 3. AWS ECR Login
             - name: Login to Amazon ECR

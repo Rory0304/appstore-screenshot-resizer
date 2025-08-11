@@ -17,10 +17,11 @@ jobs:
 
     permissions:
       contents: write
-      workflows: write
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Install Dependencies
         run: |

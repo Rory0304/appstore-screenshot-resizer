@@ -12,8 +12,6 @@ env:
 
 permissions:
   contents: write
-  actions: write
-  workflows: write
 
 jobs: 
   CI: 
@@ -26,6 +24,8 @@ jobs:
     steps:
       # 1. Checkout code
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
       # 2. AWS Credentials (role based)
       - name: Configure AWS Credentials

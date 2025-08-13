@@ -62,15 +62,15 @@ jobs:
                   ECR_REPOSITORY: ${{ env.AWS_ECR_REPOSITORY }}
                   IMAGE_TAG: ${{ github.sha }}
               uses: appleboy/ssh-action@v0.1.5
-                with:
-                    host: ${{ secrets.EC2_IP_ADDRESS }}
-                    username: ubuntu
-                    key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-                    envs: ECR_REGISTRY, IMAGE_TAG, ECR_REPOSITORY, AWS_REGION
-                    script: |
-                        cd /home/ubuntu/app-screenshot-resizer
-                        aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
-                        sudo docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-                        sudo docker stop app-screenshot-resizer || true
-                        sudo docker rm app-screenshot-resizer || true
-                        sudo docker run -d --name app-screenshot-resizer -p 80:3000 $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+              with:
+                  host: ${{ secrets.EC2_IP_ADDRESS }}
+                  username: ubuntu
+                  key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+                  envs: ECR_REGISTRY, IMAGE_TAG, ECR_REPOSITORY, AWS_REGION
+                  script: |
+                      cd /home/ubuntu/app-screenshot-resizer
+                      aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
+                      sudo docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+                      sudo docker stop app-screenshot-resizer || true
+                      sudo docker rm app-screenshot-resizer || true
+                      sudo docker run -d --name app-screenshot-resizer -p 80:3000 $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG

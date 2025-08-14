@@ -58,7 +58,14 @@ jobs:
                   docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
                   echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-            # 5. Deploy to EC2
+            # 5. Docker login
+            - name: Login to DockerHub
+              uses: docker/login-action@v2
+              with:
+                username: ${{ secrets.DOCKERHUB_USERNAME }}
+                password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+            # 6. Deploy to EC2
             - name: Deploy to EC2
               env:
                   ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -73,7 +80,7 @@ jobs:
                   script: |
                       cd /home/ubuntu/app-screenshot-resizer
                       aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
-                      sudo docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-                      sudo docker stop app-screenshot-resizer || true
-                      sudo docker rm app-screenshot-resizer || true
-                      sudo docker run -d --name app-screenshot-resizer -p 80:3000 $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+                      docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+                      docker stop app-screenshot-resizer || true
+                      docker rm app-screenshot-resizer || true
+                      docker run -d --name app-screenshot-resizer -p 80:3000 $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG

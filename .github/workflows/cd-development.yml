@@ -58,14 +58,7 @@ jobs:
                   docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
                   echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-            # 5. Docker login
-            - name: Login to DockerHub
-              uses: docker/login-action@v2
-              with:
-                username: ${{ secrets.DOCKERHUB_USERNAME }}
-                password: ${{ secrets.DOCKERHUB_PASSWORD }}
-
-            # 6. Deploy to EC2
+            # 5. Deploy to EC2
             - name: Deploy to EC2
               env:
                   ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}

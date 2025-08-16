@@ -76,4 +76,4 @@ jobs:
                       docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
                       docker stop app-screenshot-resizer || true
                       docker rm app-screenshot-resizer || true
-                      docker run -d --name app-screenshot-resizer -p 3000:80 $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+                      docker run -d --name app-screenshot-resizer -p 80:3000 $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
